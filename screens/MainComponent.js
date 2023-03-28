@@ -1,13 +1,18 @@
 import DirectoryScreen from "./DirectoryScreen";
-import { View, Platform, StyleSheet } from "react-native";
+import { View, Platform, StyleSheet, Text, Image } from "react-native";
 import CampsiteInfoScreen from "./CampsiteInfoScreen";
 import Constants from "expo-constants";
 import { createStackNavigator } from "@react-navigation/stack";
 import HomeScreen from "./HomeScreen";
-import { createDrawerNavigator } from "@react-navigation/drawer";
+import {
+  createDrawerNavigator,
+  DrawerContentScrollView,
+  DrawerItemList,
+} from "@react-navigation/drawer";
 import AboutScreen from "./AboutScreen";
 import ContactScreen from "./ContactScreen";
 import { Icon } from "react-native-elements";
+import logo from "../assets/images/logo.png";
 
 const Drawer = createDrawerNavigator();
 
@@ -112,6 +117,22 @@ const DirectoryNavigator = () => {
   );
 };
 
+const CustomDrawerContent = (props) => {
+  return (
+    <DrawerContentScrollView {...props}>
+      <View style={styles.drawerHeader}>
+        <View style={{ flex: 1 }}>
+          <Image source={logo} style={styles.drawerImage} />
+        </View>
+        <View style={{ flex: 2 }}>
+          <Text style={styles.drawerHeaderText}>NuCamp</Text>
+        </View>
+      </View>
+      <DrawerItemList {...props} labelStyle={{ fontWeight: "bold" }} />
+    </DrawerContentScrollView>
+  );
+};
+
 const Main = () => {
   return (
     <View
@@ -120,6 +141,7 @@ const Main = () => {
         paddingTop: Platform.OS === "ios" ? 0 : Constants.statusBarHeight,
       }}>
       <Drawer.Navigator
+        drawerContent={CustomDrawerContent}
         initialRouteName="Home"
         drawerStyle={{ backgroundColor: "#CEC8FF" }}>
         <Drawer.Screen
@@ -196,6 +218,24 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     color: "#fff",
     fontSize: 24,
+  },
+  drawerHeader: {
+    backgroundColor: "#5637DD",
+    height: 140,
+    alignItems: "center",
+    justifyContent: "center",
+    flex: 1,
+    flexDirection: "row",
+  },
+  drawerHeaderText: {
+    color: "#fff",
+    fontSize: 24,
+    fontWeight: "bold",
+  },
+  drawerImage: {
+    margin: 10,
+    height: 60,
+    width: 60,
   },
 });
 
